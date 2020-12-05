@@ -47,6 +47,17 @@ const boradingPasses = input.map((sequence) => {
   };
 });
 
-// 4. Sort by seatId to get the highes
+// 4. Get highest and lowest IDs
 const highestSeat = boradingPasses.sort((i, x) => x.seatId - i.seatId)[0].seatId;
-console.log(highestSeat);
+const lowestSeat = boradingPasses.sort((i, x) => i.seatId - x.seatId)[0].seatId;
+
+// 5. Find missing SeatId
+let missingSeatId;
+for (let i = lowestSeat; i < highestSeat; i++) {
+  if (!boradingPasses.find((pass) => pass.seatId === i)) {
+    missingSeatId = i;
+    break;
+  }
+}
+
+console.log(missingSeatId);
