@@ -3,11 +3,7 @@ import { readFileSync } from 'fs';
 const input = readFileSync('input.txt', 'utf8').split('\n');
 
 // 1. parse code
-const bootCode = input.map((i) => {
-  let [operation, argument] = i.split(' ');
-  argument = parseInt(argument, 10);
-  return [operation, argument];
-});
+const bootCode = input.map((i) => i.split(' '));
 
 // 2. loop until hit a code twice
 let found = false;
@@ -21,15 +17,14 @@ while (!found) {
   }
 
   const [operation, argument] = bootCode[nextIndex];
-  bootCode[nextIndex] = null;
+  bootCode[nextIndex] = null; // delete command so 2nd hit will break
 
   if (operation === 'acc') {
-    accumulator += argument;
+    accumulator += parseInt(argument, 10);
     nextIndex++;
   } else if (operation === 'jmp') {
-    nextIndex += argument;
-    // nop
-  } else {
+    nextIndex += parseInt(argument, 10);
+  } else if (operation === 'nop') {
     nextIndex++;
   }
 }
